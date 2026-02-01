@@ -1,5 +1,12 @@
+/**
+ * VibeCraft Dashboard JavaScript
+ * Ambulance Traffic Management System
+ */
 
-const socket = io("http://localhost:3000");
+// Use CONFIG object for Socket.IO connection
+const SOCKET_URL = window.CONFIG?.SOCKET_URL || 'http://localhost:3000';
+
+const socket = io(SOCKET_URL);
 
 // Ambulance starting position - south of all signals
 let lat = 17.3835;
@@ -103,12 +110,25 @@ function checkLogin(){
   
   const roleIcon = userRole === 'admin' ? '👮' : '🚑';
   document.getElementById('userInfo').textContent = `${roleIcon} ${username}`;
+  
+  // Show/hide driver-only controls
+  const hospitalSelect = document.getElementById('hospital');
+  if (hospitalSelect) {
+    if (userRole === 'driver') {
+      hospitalSelect.disabled = false;
+    } else {
+      hospitalSelect.disabled = true;
+      hospitalSelect.parentElement.innerHTML += '<p class="info-text">👀 Admin viewing mode</p>';
+    }
+  }
 }
 
 // Logout function
 function logout(){
   localStorage.removeItem('username');
   localStorage.removeItem('userRole');
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('apiBase');
   window.location.href = 'login.html';
 }
 
@@ -255,5 +275,25 @@ socket.on("signal_update",signals=>{
     document.getElementById("red").classList.add("active");
     document.getElementById("green").classList.remove("active");
   }
+});
+
+// Handle connection status
+socket.on('connect', () => {
+  console.log('✅ Connected to ambulance backend');
+  document.getElementById('connectionStatus').innerHTML = '🟢 Connected';
+  document.getElementById('connectionStatus').className = 'green';
+});
+
+socket.on('disconnect', () => {
+  console.log('❌ Disconnected from ambulance backend');
+  document.getElementById('connectionStatus').innerHTML = '🔴 Disconnected';
+  document.getElementById('connectionStatus').className = 'red';
+});
+
+// Connection error handling
+socket.on('connect_error', (error) => {
+  console.error('Socket connection error:', error);
+  document.getElementById('connectionStatus').innerHTML = '🟠 Connection Error';
+  document.getElementById('connectionStatus').className = 'yellow';
 });
 

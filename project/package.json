@@ -1,17 +1,23 @@
 {
-  "name": "project",
+  "name": "vibecraft-frontend",
   "version": "1.0.0",
-  "description": "",
+  "description": "VibeCraft Ambulance Traffic Management System - Frontend",
   "main": "dashboard.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build required'",
+    "start": "npx serve . -s"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["ambulance", "traffic-management", "emergency"],
+  "author": "VibeCraft Team",
+  "license": "MIT",
   "dependencies": {
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
   }
 }
+

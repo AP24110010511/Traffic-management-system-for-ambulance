@@ -295,4 +295,4 @@ if __name__ == '__main__':
     print("   export TWILIO_PHONE='+1234567890'")
     print("="*60 + "\n")
     
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=False)

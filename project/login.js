@@ -3,7 +3,8 @@
  * Ambulance Traffic Management System
  */
 
-const API_BASE = 'http://localhost:5000/api';
+// Use CONFIG object for API base URL
+const API_BASE = window.CONFIG?.API_BASE || 'http://localhost:5000/api';
 let selectedRole = 'admin';
 
 // Role Selection
@@ -43,6 +44,9 @@ async function handleLogin(e) {
     if (data.success) {
       localStorage.setItem('userRole', data.data.role);
       localStorage.setItem('username', data.data.username);
+      localStorage.setItem('authToken', data.data.session_token);
+      // Store API base URL for use in dashboard
+      localStorage.setItem('apiBase', API_BASE.replace('/auth/login', ''));
       loginBtn.innerHTML = '✅ Login Successful!';
       setTimeout(() => window.location.href = 'index.html', 1000);
     } else {
@@ -52,10 +56,11 @@ async function handleLogin(e) {
       loginBtn.disabled = false;
     }
   } catch (error) {
-    errorMsg.textContent = '❌ Server offline. Start Python backend: cd auth_backend && python app.py';
+    errorMsg.textContent = '❌ Server offline. Please try again later or contact support.';
     errorMsg.style.display = 'block';
     loginBtn.innerHTML = '🔐 Sign In';
     loginBtn.disabled = false;
+    console.error('Login error:', error);
   }
 }
 
@@ -108,6 +113,7 @@ async function sendSMSOTP() {
   } catch (error) {
     document.getElementById('forgotError').textContent = '❌ Server error. Ensure Python backend is running.';
     document.getElementById('forgotError').style.display = 'block';
+    console.error('SMS OTP error:', error);
   }
 }
 
@@ -140,6 +146,7 @@ async function verifySMSOTP() {
   } catch (error) {
     document.getElementById('forgotError').textContent = '❌ Server error';
     document.getElementById('forgotError').style.display = 'block';
+    console.error('OTP verification error:', error);
   }
 }
 
@@ -186,6 +193,7 @@ async function resetPasswordPhone() {
   } catch (error) {
     document.getElementById('forgotError').textContent = '❌ Server error';
     document.getElementById('forgotError').style.display = 'block';
+    console.error('Password reset error:', error);
   }
 }
 
@@ -227,6 +235,7 @@ async function registerUser() {
   } catch (error) {
     document.getElementById('regError').textContent = '❌ Server error';
     document.getElementById('regError').style.display = 'block';
+    console.error('Registration error:', error);
   }
 }
 

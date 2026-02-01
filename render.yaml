@@ -1,0 +1,57 @@
+# Render Blueprint Configuration for VibeCraft Ambulance System
+# This file defines the services to deploy on Render
+
+services:
+  # ==================== AUTH BACKEND (Python/Flask) ====================
+  - type: web
+    name: vibecraft-auth
+    env: python
+    region: us-east
+    plan: free
+    buildCommand: |
+      cd auth_backend && pip install -r requirements.txt
+    startCommand: cd auth_backend && gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: TWILIO_ACCOUNT_SID
+        fromService: none
+      - key: TWILIO_AUTH_TOKEN
+        fromService: none
+      - key: TWILIO_PHONE
+        fromService: none
+
+  # ==================== AMBULANCE BACKEND (Node.js) ====================
+  - type: web
+    name: vibecraft-ambulance
+    env: node
+    region: us-east
+    plan: free
+    buildCommand: |
+      cd ambulance-backend && npm install
+    startCommand: cd ambulance-backend && node server.js
+    envVars:
+      - key: PORT
+        value: 3000
+
+  # ==================== FRONTEND (Static Site) ====================
+  - type: web
+    name: vibecraft-frontend
+    env: static
+    region: us-east
+    plan: free
+    buildCommand: |
+      cd project && npm install && npm run build
+    staticPublishPath: project/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: vibecraft-auth
+          property: host
+      - key: VITE_SOCKET_URL
+        fromService:
+          type: web
+          name: vibecraft-ambulance
+          property: host
+
