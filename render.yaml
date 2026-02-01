@@ -1,13 +1,11 @@
 # Render Blueprint Configuration for VibeCraft Ambulance System
-# This file defines the services to deploy on Render
 
 services:
   # ==================== AUTH BACKEND (Python/Flask) ====================
   - type: web
     name: vibecraft-auth
     env: python
-    region: us-east
-    plan: free
+    region: us-east-1
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
     envVars:
@@ -18,8 +16,7 @@ services:
   - type: web
     name: vibecraft-ambulance
     env: node
-    region: us-east
-    plan: free
+    region: us-east-1
     buildCommand: cd ambulance-backend && npm install
     startCommand: cd ambulance-backend && node server.js
     envVars:
@@ -30,7 +27,6 @@ services:
   - type: web
     name: vibecraft-frontend
     env: static
-    plan: free
     buildCommand: cd project && npm install && npm run build
     staticPublishPath: project/dist
 
