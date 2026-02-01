@@ -1,0 +1,4 @@
+Flask==2.3.2
+Flask-CORS==3.1.13
+gunicorn==20.1.0
+
