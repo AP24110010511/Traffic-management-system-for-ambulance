@@ -6,8 +6,8 @@
 const CONFIG = {
   // API URLs - default to localhost for local development
   // These will be overridden by environment variables in production
-  API_BASE: import.meta.env?.VITE_API_URL || 'http://localhost:5000/api',
-  SOCKET_URL: import.meta.env?.VITE_SOCKET_URL || 'http://localhost:3000',
+  API_BASE: import.meta.env?.VITE_API_URL || 'http://localhost:5001',
+  SOCKET_URL: import.meta.env?.VITE_SOCKET_URL || 'http://localhost:3001',
   
   // For backward compatibility
   getAuthBase: function() {

@@ -89,8 +89,8 @@ function getDistance(lat1, lng1, lat2, lng2){
   return Math.sqrt(dx*dx + dy*dy);
 }
 
-server.listen(3000, () => {
-  console.log("✅ Backend running on http://localhost:3000");
+server.listen(3001, () => {
+  console.log("✅ Backend running on http://localhost:3001");
   console.log("🚑 Ambulance Traffic Signal Preemption System");
   console.log("📍 Route: South → North (3 signals: S1 → S2 → S3)");
 });
