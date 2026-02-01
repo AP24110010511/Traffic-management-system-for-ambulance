@@ -30,7 +30,6 @@ services:
   - type: web
     name: vibecraft-frontend
     env: static
-    region: us-east
     plan: free
     buildCommand: cd project && npm install && npm run build
     staticPublishPath: project/dist
