@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambi - Luxury Ambulance Traffic Management</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-ambulance"></i>
+                <span>Ambi</span>
+            </div>
+            <div class="nav-links">
+                <a href="#landing">Home</a>
+                <a href="#features">Features</a>
+                <a href="#login" onclick="goToLogin('admin')">Admin</a>
+                <a href="#login" onclick="goToLogin('driver')">Driver</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Landing -->
+    <section id="landing" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Ambi</h1>
+            <p class="hero-subtitle">Luxury Traffic Priority System for Emergency Vehicles</p>
+            <p class="hero-desc">Intelligent signal control, real-time ETA, hospital notifications. Saving lives with precision.</p>
+            <div class="hero-buttons">
+                <button onclick="goToLogin('driver')" class="btn btn-gold">Driver Portal</button>
+                <button onclick="goToLogin('admin')" class="btn btn-outline">Admin Dashboard</button>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-number" data-target="99.9">99.9</span>
+                <span class="stat-label">Uptime %</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" data-target="0.1">0.1</span>
+                <span class="stat-label">sec Latency</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" data-target="1000">1000+</span>
+                <span class="stat-label">Signals</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Advanced Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Live GPS Tracking</h3>
+                    <p>Real-time ambulance location with sub-meter accuracy</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-traffic-light"></i>
+                    </div>
+                    <h3>Signal Priority</h3>
+                    <p>Automatic GREEN signals within 300m radius</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-stopwatch"></i>
+                    </div>
+                    <h3>Smart ETA</h3>
+                    <p>Dynamic calculations based on traffic and distance</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Hospital Alerts</h3>
+                    <p>Instant notifications with precise ETA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Section -->
+    <section id="login" class="login-section page">
+        <div class="login-container">
+            <div class="login-card">
+                <h2 id="login-title">Driver Login</h2>
+                <div class="input-group">
+                    <input id="phone" type="tel" placeholder="Phone Number" class="input-field">
+                    <button id="send-otp-btn" onclick="sendOTP()">
+                        <i class="fas fa-sms"></i> Send OTP
+                    </button>
+                </div>
+                <div id="otp-section" class="otp-group hidden">
+                    <input id="otp" type="number" placeholder="Enter OTP" class="input-field">
+                    <button onclick="verifyOTP()">
+                        <i class="fas fa-check"></i> Verify & Continue
+                    </button>
+                </div>
+                <button onclick="goToLanding()" class="btn btn-outline small">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section id="dashboard" class="dashboard-section page">
+        <div class="dashboard-container">
+            <header class="dashboard-header">
+                <div class="dashboard-title">
+                    <i class="fas fa-ambulance"></i>
+                    <h2 id="dashboard-title">Ambi Dashboard</h2>
+                </div>
+                <button onclick="logout()" class="btn btn-outline">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </header>
+
+            <div class="dashboard-stats">
+                <div class="stat-card" id="amb-status">
+                    <i class="fas fa-ambulance"></i>
+                    <div>AMB001 Active</div>
+                </div>
+                <div class="stat-card" id="sig-status">
+                    <i class="fas fa-traffic-light"></i>
+                    <div>3 Signals</div>
+                </div>
+                <div class="stat-card" id="eta-display">
+                    <i class="fas fa-stopwatch"></i>
+                    <div>ETA: -- min</div>
+                </div>
+            </div>
+
+            <div class="dashboard-map">
+                <div id="map"></div>
+            </div>
+
+            <div class="dashboard-controls">
+                <h3>Live Controls</h3>
+                <div class="control-group">
+                    <label>Latitude</label>
+                    <input id="lat" type="number" step="any" value="17.3850">
+                    <label>Longitude</label>
+                    <input id="lon" type="number" step="any" value="78.4860">
+                    <label>Destination</label>
+                    <select id="hospital">
+                        <option>Apollo Hospital</option>
+                        <option>KIMS Hospital</option>
+                        <option>Yashoda Hospital</option>
+                    </select>
+                </div>
+                <div class="control-buttons">
+                    <button onclick="updateLocation()" class="btn btn-gold">
+                        <i class="fas fa-map-marker-alt"></i> Update & Prioritize
+                    </button>
+                    <button onclick="sendHospitalAlert()" class="btn btn-alert">
+                        <i class="fas fa-bell"></i> Hospital Alert
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
