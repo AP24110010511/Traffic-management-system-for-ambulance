@@ -1,0 +1,2 @@
+# hospital blueprint init
+

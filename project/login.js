@@ -4,7 +4,7 @@
  */
 
 // Use CONFIG object for API base URL
-const API_BASE = window.CONFIG?.API_BASE || 'http://localhost:5000/api';
+const API_BASE = window.CONFIG?.API_BASE || 'http://localhost:5001/api';
 let selectedRole = 'admin';
 
 // Role Selection

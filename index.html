@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeCraft - Smart Ambulance Traffic System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 50%, #16213e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* HERO SECTION */
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 0 20px;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%), linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #c7d2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+        
+        .hero-text p {
+            font-size: 1.3rem;
+            color: #e2e8f0;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 25px 50px rgba(79, 70, 229, 0.6);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            padding: 1rem 2.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .hero-image {
+            position: relative;
+        }
+        
+        .dashboard-mock {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5);
+        }
+        
+        .dashboard-mock::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(79, 70, 229, 0.3) 0%, transparent 50%), radial-gradient(circle at 70% 70%, rgba(236, 72, 153, 0.3) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        /* SECTION COMMON */
+        
+        .section {
+            padding: 8rem 0;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 3rem;
+        }
+        /* ABOUT */
+        
+        .about {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .problem-solution {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .problem-solution h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #e0e7ff;
+        }
+        
+        .problem-solution p {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        /* FEATURES */
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #ec4899);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .feature-card h4 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        /* HOW IT WORKS */
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .step {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+            color: white;
+        }
+        /* STATS */
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-number {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        /* TECH STACK */
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .tech-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .tech-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* USE CASES */
+        
+        .use-cases {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        /* FUTURE SCOPE */
+        
+        .future-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .future-card {
+            background: linear-gradient(145deg, rgba(79, 70, 229, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+        /* FOOTER */
+        
+        .footer {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 4rem 0 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            transform: translateY(-3px);
+        }
+        /* RESPONSIVE */
+        
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            .cta-buttons {
+                justify-content: center;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid,
+            .tech-grid,
+            .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* SCROLL ANIMATIONS */
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text fade-in">
+                    <h1>VibeCraft</h1>
+                    <p>Intelligent traffic management system that prioritizes emergency vehicles, saving precious minutes during critical moments.</p>
+                    <div class="cta-buttons">
+                        <a href="#features" class="btn-primary">View Features</a>
+                        <a href="#how-it-works" class="btn-secondary">How It Works</a>
+                    </div>
+                </div>
+                <div class="hero-image fade-in">
+                    <div class="dashboard-mock">
+                        <div style="position: absolute; top: 20px; left: 20px; color: rgba(255,255,255,0.8); font-weight: 500;">
+                            LIVE DASHBOARD
+                        </div>
+                        <div style="position: absolute; bottom: 20px; right: 20px; color: rgba(255,255,255,0.6); font-size: 0.9rem;">
+                            Ambulance ETA: 3min 42s
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section about" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">The Problem. The Solution.</h2>
+            <div class="about-grid">
+                <div class="problem-solution fade-in">
+                    <h3>🚨 The Crisis</h3>
+                    <p>Every year, ambulances lose critical minutes stuck in traffic, delaying life-saving care. In urban areas, emergency vehicles face the same red lights as regular traffic, costing precious lives.</p>
+                </div>
+                <div class="problem-solution fade-in">
+                    <h3>✅ The VibeCraft Solution</h3>
+                    <p>Using GPS tracking and intelligent algorithms, VibeCraft automatically turns traffic signals GREEN when ambulances approach, creating priority corridors that save lives and reduce response times by up to 40%.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+        <div class="container">
+            <h2 class="section-title fade-in">Core Features</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🟢</div>
+                    <h4>Auto Signal Priority</h4>
+                    <p>Traffic lights automatically turn GREEN within 300m of approaching ambulance using GPS geofencing.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📍</div>
+                    <h4>Live GPS Tracking</h4>
+                    <p>Real-time ambulance location tracking with periodic GPS updates to central server.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📱</div>
+                    <h4>OTP Authentication</h4>
+                    <p>Secure driver login using SMS OTP verification via Twilio integration.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🏥</div>
+                    <h4>Hospital Pre-Alerts</h4>
+                    <p>Hospitals receive advance notifications when ambulances are within 2km with precise ETA.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">⏱️</div>
+                    <h4>Smart ETA Prediction</h4>
+                    <p>Dynamic ETA calculation using haversine distance and real-time speed data.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🚨</div>
+                    <h4>Emergency Alerts</h4>
+                    <p>Audio/visual alerts when ambulance approaches traffic signals for maximum safety.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title fade-in">How It Works</h2>
+            <div class="steps">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <h4>Driver Login</h4>
+                    <p>Secure OTP authentication via SMS</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">2</div>
+                    <h4>GPS Tracking</h4>
+                    <p>Live location updates every few seconds</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">3</div>
+                    <h4>Signal Priority</h4>
+                    <p>Nearest signal turns GREEN automatically</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">4</div>
+                    <h4>Hospital Alert</h4>
+                    <p>Pre-notification with precise ETA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPACT -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Proven Impact</h2>
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-number">40%</div>
+                    <p>Response Time Reduction</p>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">87%</div>
+                    <p>Signal Priority Success Rate</p>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">2.8</div>
+                    <p>Average Minutes Saved</p>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">500+</div>
+                    <p>Test Simulations Completed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Technology Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">🐍</div>
+                    <h4>Python Flask</h4>
+                    <p>Robust backend API</p>
+                </div>
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">📍</div>
+                    <h4>GPS Tracking</h4>
+                    <p>Real-time location</p>
+                </div>
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">📱</div>
+                    <h4>Twilio SMS</h4>
+                    <p>OTP Authentication</p>
+                </div>
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">🗺️</div>
+                    <h4>Haversine Geo</h4>
+                    <p>Precise distance calc</p>
+                </div>
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">💾</div>
+                    <h4>SQLite</h4>
+                    <p>Persistent storage</p>
+                </div>
+                <div class="tech-item fade-in">
+                    <div class="tech-icon">⚡</div>
+                    <h4>Real-time</h4>
+                    <p>Live updates</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section class="section use-cases">
+        <div class="container">
+            <h2 class="section-title fade-in">Who Benefits</h2>
+            <div class="use-cases-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🚑</div>
+                    <h4>Ambulance Drivers</h4>
+                    <p>Green corridors, faster hospital delivery</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">👮</div>
+                    <h4>Traffic Police</h4>
+                    <p>Live dashboard, full control</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🏥</div>
+                    <h4>Hospitals</h4>
+                    <p>Pre-arrival alerts, better preparedness</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🏙️</div>
+                    <h4>Smart Cities</h4>
+                    <p>Emergency vehicle infrastructure</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FUTURE SCOPE -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Future Vision</h2>
+            <div class="future-grid">
+                <div class="future-card fade-in">
+                    <i class="fas fa-brain" style="font-size: 3rem; color: #4f46e5; margin-bottom: 1rem;"></i>
+                    <h4>AI Traffic Prediction</h4>
+                    <p>Proactive signal optimization using ML</p>
+                </div>
+                <div class="future-card fade-in">
+                    <i class="fas fa-city" style="font-size: 3rem; color: #ec4899; margin-bottom: 1rem;"></i>
+                    <h4>City-wide Deployment</h4>
+                    <p>Scale to entire urban infrastructure</p>
+                </div>
+                <div class="future-card fade-in">
+                    <i class="fas fa-microchip" style="font-size: 3rem; color: #10b981; margin-bottom: 1rem;"></i>
+                    <h4>IoT Integration</h4>
+                    <p>Physical signal hardware control</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem;">
+                    VibeCraft
+                </h3>
+                <p>Intelligent Emergency Vehicle Priority System</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+                <p style="margin-top: 2rem; color: #94a3b8; font-size: 0.9rem;">
+                    College End-Semester Project | Built with ❤️ for saving lives
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fade in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

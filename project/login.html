@@ -1,190 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Ambulance Traffic Management</title>
-<link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Ambulance Traffic Management</title>
+    <link rel="stylesheet" href="../styles.css">
 </head>
+
 <body>
 
-<div class="login-container">
-  <div class="login-header">
-    <span class="login-icon">🚑</span>
-    <h1>VibeCraft</h1>
-    <p>Ambulance Traffic Management System</p>
-    <div style="margin-top: 10px;">
-      <span class="sms-badge">📱 Real SMS via Twilio</span>
-    </div>
-  </div>
+    <div class="login-container">
+        <div class="login-header">
+            <span class="login-icon">🚑</span>
+            <h1>VibeCraft</h1>
+            <p>Ambulance Traffic Management System</p>
+            <div style="margin-top: 10px;">
+                <span class="sms-badge">📱 Real SMS via Twilio</span>
+            </div>
+        </div>
 
-  <div class="role-selector">
-    <button class="role-btn active" data-role="admin" onclick="selectRole('admin')">👮 Admin</button>
-    <button class="role-btn" data-role="driver" onclick="selectRole('driver')">🚑 Driver</button>
-  </div>
+        <div class="role-selector">
+            <button class="role-btn active" data-role="admin" onclick="selectRole('admin')">👮 Admin</button>
+            <button class="role-btn" data-role="driver" onclick="selectRole('driver')">🚑 Driver</button>
+        </div>
 
-  <form id="loginForm" onsubmit="handleLogin(event)">
-    <div class="form-group">
-      <label>Username</label>
-      <input type="text" id="username" placeholder="Enter username" required>
-    </div>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Enter username" required>
+            </div>
 
-    <div class="form-group">
-      <label>Password</label>
-      <div class="password-toggle">
-        <input type="password" id="password" placeholder="Enter password" required>
-        <button type="button" class="toggle-btn" onclick="togglePassword()">👁️</button>
-      </div>
-    </div>
+            <div class="form-group">
+                <label>Password</label>
+                <div class="password-toggle">
+                    <input type="password" id="password" placeholder="Enter password" required>
+                    <button type="button" class="toggle-btn" onclick="togglePassword()">👁️</button>
+                </div>
+            </div>
 
-    <button type="submit" class="login-btn" id="loginBtn">🔐 Sign In</button>
+            <button type="submit" class="login-btn" id="loginBtn">🔐 Sign In</button>
 
-    <p class="error-msg" id="errorMsg"></p>
+            <p class="error-msg" id="errorMsg"></p>
 
-    <div class="forgot-link">
-      <a onclick="openForgotModal()">Forgot Password? 📱 Get OTP on Phone</a>
-    </div>
-    
-    <div class="register-link">
-      New user? <a onclick="openRegisterModal()">Register here</a>
-    </div>
-  </form>
+            <div class="forgot-link">
+                <a onclick="openForgotModal()">Forgot Password? 📱 Get OTP on Phone</a>
+            </div>
 
-  <div class="demo-info">
-    <h4>📱 SMS OTP Password Reset</h4>
-    <p>1. Enter your <strong>registered phone number</strong></p>
-    <p>2. Receive <strong>6-digit OTP</strong> via real SMS</p>
-    <p>3. Enter OTP and set new password</p>
-    <p style="margin-top: 12px;"><strong>Demo Users:</strong></p>
-    <p><code>admin</code> → 📱 <code>+919999999999</code></p>
-    <p><code>driver</code> → 📱 <code>+919999999998</code></p>
-  </div>
+            <div class="register-link">
+                New user? <a onclick="openRegisterModal()">Register here</a>
+            </div>
+        </form>
 
-  <div class="footer">
-    <p>🚨 Emergency Vehicle Priority System • SQLite + Twilio</p>
-  </div>
-</div>
+        <div class="demo-info">
+            <h4>📱 SMS OTP Password Reset</h4>
+            <p>1. Enter your <strong>registered phone number</strong></p>
+            <p>2. Receive <strong>6-digit OTP</strong> via real SMS</p>
+            <p>3. Enter OTP and set new password</p>
+            <p style="margin-top: 12px;"><strong>Demo Users:</strong></p>
+            <p><code>admin</code> → 📱 <code>+919999999999</code></p>
+            <p><code>driver</code> → 📱 <code>+919999999998</code></p>
+        </div>
 
-<!-- Forgot Password Modal -->
-<div class="modal" id="forgotModal">
-  <div class="modal-content">
-    <button class="close-modal" onclick="closeForgotModal()">&times;</button>
-    
-    <div class="modal-header">
-      <h2>📱 Reset Password via SMS</h2>
-      <p>Receive OTP on your phone via Twilio</p>
+        <div class="footer">
+            <p>🚨 Emergency Vehicle Priority System • SQLite + Twilio</p>
+        </div>
     </div>
 
-    <div class="step active" id="fpStep1">
-      <div class="info-box">
-        <strong>Step 1:</strong> Enter your registered phone number to receive a real OTP SMS via Twilio.
-      </div>
-      <div class="form-group">
-        <label>📱 Phone Number</label>
-        <input type="tel" id="fpPhone" placeholder="+91-XXXXXXXXXX" value="+91">
-      </div>
-      <button class="login-btn" onclick="sendSMSOTP()">📨 Send OTP via SMS</button>
-      
-      <div class="otp-display" id="otpDisplay">
-        <p style="color: #22c55e; font-size: 12px; margin-bottom: 10px;">✅ OTP sent successfully!</p>
-        <p class="otp-value" id="otpValue">------</p>
-        <p style="color: #94a3b8; font-size: 11px; margin-top: 10px;">Check your SMS or terminal console</p>
-      </div>
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeForgotModal()">&times;</button>
+
+            <div class="modal-header">
+                <h2>📱 Reset Password via SMS</h2>
+                <p>Receive OTP on your phone via Twilio</p>
+            </div>
+
+            <div class="step active" id="fpStep1">
+                <div class="info-box">
+                    <strong>Step 1:</strong> Enter your registered phone number to receive a real OTP SMS via Twilio.
+                </div>
+                <div class="form-group">
+                    <label>📱 Phone Number</label>
+                    <input type="tel" id="fpPhone" placeholder="+91-XXXXXXXXXX" value="+91">
+                </div>
+                <button class="login-btn" onclick="sendSMSOTP()">📨 Send OTP via SMS</button>
+
+                <div class="otp-display" id="otpDisplay">
+                    <p style="color: #22c55e; font-size: 12px; margin-bottom: 10px;">✅ OTP sent successfully!</p>
+                    <p class="otp-value" id="otpValue">------</p>
+                    <p style="color: #94a3b8; font-size: 11px; margin-top: 10px;">Check your SMS or terminal console</p>
+                </div>
+            </div>
+
+            <div class="step" id="fpStep2">
+                <div class="info-box">
+                    <strong>Step 2:</strong> Enter the 6-digit OTP from your SMS.
+                </div>
+                <div class="form-group">
+                    <label>🔐 Enter OTP</label>
+                    <input type="text" id="fpOtp" placeholder="6-digit OTP" maxlength="6" style="text-align: center; font-size: 24px; letter-spacing: 10px;">
+                </div>
+                <button class="login-btn" onclick="verifySMSOTP()">✓ Verify OTP</button>
+            </div>
+
+            <div class="step" id="fpStep3">
+                <p class="success-msg" style="display: block; text-align: center;">✅ OTP Verified! Set your new password.</p>
+
+                <div class="form-group">
+                    <label>🔒 New Password</label>
+                    <input type="password" id="newPassword" placeholder="New password" onkeyup="checkPasswordStrength()">
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="strengthBar"></div>
+                    </div>
+                    <p class="password-hint">Min 8 chars, 1 uppercase, 1 number</p>
+                </div>
+
+                <div class="form-group">
+                    <label>🔒 Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm password">
+                </div>
+
+                <button class="login-btn" onclick="resetPasswordPhone()">🔄 Reset Password</button>
+            </div>
+
+            <div class="step" id="fpStep4">
+                <div style="text-align: center; padding: 20px 0;">
+                    <span style="font-size: 64px;">✅</span>
+                    <h3 style="color: #22c55e; margin: 15px 0; font-size: 22px;">Password Reset Successful!</h3>
+                    <p style="color: #64748b; font-size: 14px;">Your password has been updated securely.</p>
+                    <p style="color: #38bdf8; font-size: 12px; margin-top: 10px;">OTP verification via Twilio SMS ✅</p>
+                    <button class="login-btn" style="margin-top: 25px;" onclick="closeForgotModal()">← Back to Login</button>
+                </div>
+            </div>
+
+            <p class="error-msg" id="forgotError"></p>
+        </div>
     </div>
 
-    <div class="step" id="fpStep2">
-      <div class="info-box">
-        <strong>Step 2:</strong> Enter the 6-digit OTP from your SMS.
-      </div>
-      <div class="form-group">
-        <label>🔐 Enter OTP</label>
-        <input type="text" id="fpOtp" placeholder="6-digit OTP" maxlength="6" style="text-align: center; font-size: 24px; letter-spacing: 10px;">
-      </div>
-      <button class="login-btn" onclick="verifySMSOTP()">✓ Verify OTP</button>
-    </div>
+    <!-- Register Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeRegisterModal()">&times;</button>
 
-    <div class="step" id="fpStep3">
-      <p class="success-msg" style="display: block; text-align: center;">✅ OTP Verified! Set your new password.</p>
-      
-      <div class="form-group">
-        <label>🔒 New Password</label>
-        <input type="password" id="newPassword" placeholder="New password" onkeyup="checkPasswordStrength()">
-        <div class="password-strength"><div class="password-strength-bar" id="strengthBar"></div></div>
-        <p class="password-hint">Min 8 chars, 1 uppercase, 1 number</p>
-      </div>
+            <div class="modal-header">
+                <h2>📝 New Registration</h2>
+                <p>Create your account</p>
+            </div>
 
-      <div class="form-group">
-        <label>🔒 Confirm Password</label>
-        <input type="password" id="confirmPassword" placeholder="Confirm password">
-      </div>
+            <div class="info-box">
+                <strong>Note:</strong> Your phone number is used for SMS OTP password reset. Make sure it's valid!
+            </div>
 
-      <button class="login-btn" onclick="resetPasswordPhone()">🔄 Reset Password</button>
-    </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="regUsername" placeholder="Choose username">
+            </div>
 
-    <div class="step" id="fpStep4">
-      <div style="text-align: center; padding: 20px 0;">
-        <span style="font-size: 64px;">✅</span>
-        <h3 style="color: #22c55e; margin: 15px 0; font-size: 22px;">Password Reset Successful!</h3>
-        <p style="color: #64748b; font-size: 14px;">Your password has been updated securely.</p>
-        <p style="color: #38bdf8; font-size: 12px; margin-top: 10px;">OTP verification via Twilio SMS ✅</p>
-        <button class="login-btn" style="margin-top: 25px;" onclick="closeForgotModal()">← Back to Login</button>
-      </div>
-    </div>
+            <div class="form-group">
+                <label>📧 Email</label>
+                <input type="email" id="regEmail" placeholder="Enter email">
+            </div>
 
-    <p class="error-msg" id="forgotError"></p>
-  </div>
-</div>
+            <div class="form-group">
+                <label>📱 Phone (for SMS OTP)</label>
+                <input type="tel" id="regPhone" placeholder="+91-XXXXXXXXXX" value="+91">
+            </div>
 
-<!-- Register Modal -->
-<div class="modal" id="registerModal">
-  <div class="modal-content">
-    <button class="close-modal" onclick="closeRegisterModal()">&times;</button>
-    
-    <div class="modal-header">
-      <h2>📝 New Registration</h2>
-      <p>Create your account</p>
-    </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="regPassword" placeholder="Create password">
+            </div>
 
-    <div class="info-box">
-      <strong>Note:</strong> Your phone number is used for SMS OTP password reset. Make sure it's valid!
-    </div>
-
-    <div class="form-group">
-      <label>Username</label>
-      <input type="text" id="regUsername" placeholder="Choose username">
-    </div>
-
-    <div class="form-group">
-      <label>📧 Email</label>
-      <input type="email" id="regEmail" placeholder="Enter email">
-    </div>
-
-    <div class="form-group">
-      <label>📱 Phone (for SMS OTP)</label>
-      <input type="tel" id="regPhone" placeholder="+91-XXXXXXXXXX" value="+91">
-    </div>
-
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" id="regPassword" placeholder="Create password">
-    </div>
-
-    <div class="form-group">
-      <label>Role</label>
-      <select id="regRole">
+            <div class="form-group">
+                <label>Role</label>
+                <select id="regRole">
         <option value="driver">🚑 Driver</option>
         <option value="admin">👮 Admin</option>
       </select>
+            </div>
+
+            <button class="login-btn" onclick="registerUser()">Register</button>
+            <p class="error-msg" id="regError"></p>
+            <p class="success-msg" id="regSuccess"></p>
+        </div>
     </div>
 
-    <button class="login-btn" onclick="registerUser()">Register</button>
-    <p class="error-msg" id="regError"></p>
-    <p class="success-msg" id="regSuccess"></p>
-  </div>
-</div>
-
-<script src="config.js"></script>
-<script src="login.js"></script>
+    <script src="config.js"></script>
+    <script src="login.js"></script>
 </body>
-</html>
 
+</html>
